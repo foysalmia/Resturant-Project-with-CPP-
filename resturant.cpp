@@ -110,7 +110,7 @@ void print_order(Summary *bill,int n)
     cout<<"Table No : "<<bill->table_no<<endl;
     cout<<"Item Code\t\tItem Name\t\tItem Price\t\tItem Quantity\t\tTotal Price"<<endl;
     for(int i=0;i<n;i++){
-        cout<<bill->code[i]<<"\t\t"<<bill->name[i]<<"\t\t"<<bill->price[i]<<"\t\t"<<bill->quantity[i]<<"\t\t"<<bill->total_price[i]<<endl;
+        cout<<bill->code[i]<<"\t\t\t"<<bill->name[i]<<"\t"<<bill->price[i]<<"\t\t\t"<<bill->quantity[i]<<"\t\t\t"<<bill->total_price[i]<<endl;
     }
 
 }
