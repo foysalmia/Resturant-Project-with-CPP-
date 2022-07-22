@@ -4,12 +4,11 @@ using namespace std;
 
 class Restaurant
 {
-protected:
-    int total_tax;
 public:
     int food_item_codes[12];
     string food_item_names[12];
     int food_item_prices[12];
+    float total_tax;
     Restaurant(int n,int code[],string name[],int price[])
     {
         this->total_tax = 0;
@@ -20,6 +19,8 @@ public:
             this->food_item_prices[i] = price[i];
         }
     }
+
+    friend class Summary;
 
 };
 
@@ -50,6 +51,9 @@ class Summary
 {
 public:
     int table_no;
+    float order_tax;
+    int order_sum;
+    float total_charge;
     int code[12];
     string name[12];
     int price[12];
@@ -59,6 +63,7 @@ public:
     Summary(Order *order,Restaurant *resturant,int item,int n)
     {
         this->table_no = order->table_no;
+        this->order_sum = 0;
         for(int i=0; i<item; i++)
         {
             this->code[i] = order->item_code[i];
@@ -74,9 +79,15 @@ public:
 
         }
 
-        for(int i=0;i<item;i++){
+        for(int i=0; i<item; i++)
+        {
             this->total_price[i] = this->price[i] * this->quantity[i];
+            this->order_sum += total_price[i];
         }
+
+        this->order_tax = (float)this->order_sum * 0.05;
+        this->total_charge = (float)this->order_sum + this->order_tax;
+        resturant->total_tax += this->order_tax;
     }
 
 
@@ -109,12 +120,13 @@ void print_order(Summary *bill,int n)
     cout<<"\t\t\t-------------------------"<<endl;
     cout<<"Table No : "<<bill->table_no<<endl;
     cout<<"Item Code\t\tItem Name\t\tItem Price\t\tItem Quantity\t\tTotal Price"<<endl;
-    for(int i=0;i<n;i++){
+    for(int i=0; i<n; i++)
+    {
         cout<<bill->code[i]<<"\t\t\t"<<bill->name[i]<<"\t"<<bill->price[i]<<"\t\t\t"<<bill->quantity[i]<<"\t\t\t"<<bill->total_price[i]<<endl;
     }
-    cout<<"TAX\t\t\t\t\t\t\t\t\t\t\t\t"<<"120"<<endl;
+    cout<<"TAX\t\t\t\t\t\t\t\t\t\t\t\t"<<bill->order_tax<<endl;
     cout<<"-------------------------------------------------------------------------------------------------------------"<<endl;
-    cout<<"NET TOTAL\t\t\t\t\t\t\t\t\t\t\t"<<"1520"<<"Taka"<<endl;
+    cout<<"NET TOTAL\t\t\t\t\t\t\t\t\t\t\t"<<bill->total_charge<<" Taka"<<endl;
 
 }
 
@@ -157,10 +169,13 @@ int main()
 {
     int n;
     cin>>n;
-
     Restaurant *myResturant = create_resturant(n);
-    printDetails(n,myResturant);
-    cout<<endl;
-    create_Order(n,myResturant);
+    while(true)
+    {
+        printDetails(n,myResturant);
+        cout<<endl;
+        create_Order(n,myResturant);
+        cout<<"Sub Total tax : "<<myResturant->total_tax<<endl;
+    }
     return 0;
 }
