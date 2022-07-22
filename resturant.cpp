@@ -112,6 +112,9 @@ void print_order(Summary *bill,int n)
     for(int i=0;i<n;i++){
         cout<<bill->code[i]<<"\t\t\t"<<bill->name[i]<<"\t"<<bill->price[i]<<"\t\t\t"<<bill->quantity[i]<<"\t\t\t"<<bill->total_price[i]<<endl;
     }
+    cout<<"TAX\t\t\t\t\t\t\t\t\t\t\t\t"<<"120"<<endl;
+    cout<<"-------------------------------------------------------------------------------------------------------------"<<endl;
+    cout<<"NET TOTAL\t\t\t\t\t\t\t\t\t\t\t"<<"1520"<<"Taka"<<endl;
 
 }
 
