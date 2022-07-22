@@ -4,11 +4,15 @@ using namespace std;
 
 class Restaurant
 {
+protected:
+    float total_tax;
 public:
     int food_item_codes[12];
     string food_item_names[12];
     int food_item_prices[12];
-    float total_tax;
+    int get_tax(){
+        return total_tax;
+    }
     Restaurant(int n,int code[],string name[],int price[])
     {
         this->total_tax = 0;
@@ -141,8 +145,29 @@ void create_Order(int n,Restaurant *resturant)
 
     for(int i=0; i<items; i++)
     {
+        int code;
+        bool isAvailable = false;
+Flag:
         cout<<"Enter Item "<<i+1<<" Code : ";
-        cin>>item_code[i];
+        cin>>code;
+        for(int j=0; j<n; j++)
+        {
+            if(code == resturant->food_item_codes[j])
+            {
+                isAvailable = true;
+                break;
+            }
+        }
+        if(isAvailable)
+        {
+            item_code[i] = code;
+        }
+        else
+        {
+            cout<<"Sorry,This food is not available right now..."<<endl;
+            goto Flag;
+        }
+
         cout<<"Enter Item "<<i+1<<" Quantity : ";
         cin>>quantity[i];
     }
@@ -175,7 +200,7 @@ int main()
         printDetails(n,myResturant);
         cout<<endl;
         create_Order(n,myResturant);
-        cout<<"Sub Total tax : "<<myResturant->total_tax<<endl;
+        cout<<"Sub Total tax : "<<myResturant->get_tax()<<endl;
     }
     return 0;
 }
